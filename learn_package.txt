@@ -1,0 +1,56 @@
+step 1 : 
+put flow code in [main]
+    WidgetsFlutterBinding.ensureInitialized();
+    await ThemeInitialize.instance;
+
+step 2 : 
+    wrap your material with GeeksThemeProvider Widget and define all attribute you need
+    example :
+###############################################
+        GeeksThemeProvider(
+      themeDataProvider: GeeksTheme(
+        useMaterial3: true,
+        useSeed: true,
+        lightColorScheme: const ColorScheme.light(),
+        darkColorScheme: const ColorScheme.dark(),
+        textTheme: (textTheme) => GoogleFonts.tajawalTextTheme(textTheme),
+        themeChangeApp: (color) => ThemeData(
+          extensions: [
+            ColorTheme(
+              primaryColor: color.primary,
+              secondaryColor: color.secondary,
+            )
+          ],
+          appBarTheme: AppBarTheme(backgroundColor: color.primary),
+        ),
+      ),
+        ),
+###############################################
+step 3 :
+in [materialApp] put this code
+    MaterialApp(
+      title: 'Flutter Demo',
+      darkTheme: context.readTheme().themeDataProvider.darkTheme,
+      theme: context.readTheme().themeDataProvider.lightTheme,
+      themeMode: context.readTheme().currentThemeMode,
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+    #### or ###
+     MaterialApp(
+      title: 'Flutter Demo',
+      darkTheme: GeeksThemeRead.of(context)!.themeDataProvider.darkTheme,
+      theme: GeeksThemeRead.of(context)!.themeDataProvider.lightTheme,
+      themeMode: GeeksThemeRead.of(context)!.currentThemeMode,
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+###############################################
+step 4 
+to access to themeClass you can use 
+    [context.readTheme()] or [GeeksThemeRead.of(context)?]
+
+to update theme you can use this
+     context.readTheme().updateThemeMode(ThemeMode.dark);
+     GeeksThemeRead.of(context)?.updateThemeMode(ThemeMode.light);
+
+###############################################
+this package cache the theme ;
